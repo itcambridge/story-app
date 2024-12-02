@@ -8,14 +8,75 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   padding: 0 2rem;
   z-index: 1000;
   border-bottom: 1px solid var(--border-color);
 }
 
+.banner-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.control-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--choice-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.control-button:hover:not(:disabled) {
+  background: var(--choice-hover);
+  transform: translateY(-2px);
+}
+
+.control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.scene-counter {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .story-banner {
+    padding: 0 1rem;
+  }
+
+  .banner-controls {
+    gap: 0.5rem;
+  }
+
+  .control-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .scene-counter {
+    display: none;
+  }
+}
+
 .theme-toggle {
+  position: absolute;
+  right: 0;
   background: none;
   border: 1px solid var(--border-color);
   color: var(--text-primary);
@@ -41,18 +102,46 @@
 }
 
 .story-container {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  grid-template-areas: 
+    "banner banner"
+    "image memory"
+    "text memory"
+    "choices memory";
+  gap: 1rem;
+  padding: 1rem;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.5rem;
-  padding-top: calc(60px + 0.5rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  min-height: 100vh;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.story-banner {
+  grid-area: banner;
+}
+
+.scene-image {
+  grid-area: image;
+}
+
+.story-text {
+  grid-area: text;
+}
+
+.story-choices {
+  grid-area: choices;
+}
+
+.memory-panel {
+  grid-area: memory;
+  position: sticky;
+  top: 1rem;
+  height: calc(100vh - 2rem);
+  overflow-y: auto;
+  background: var(--choice-bg);
+  border: 1px solid var(--choice-border);
+  border-radius: 12px;
+  padding: 1rem;
+  backdrop-filter: blur(10px);
 }
 
 h1 {
@@ -74,7 +163,7 @@ h1 {
   background-color: #1a1a1a;
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 0;
+  margin: 0 auto;
 }
 
 .scene-image img {
@@ -122,12 +211,11 @@ p {
 
 .story-choices {
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
+  margin: 1rem auto;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 0 1rem;
-  margin-bottom: 1rem;
 }
 
 .choice-button {
@@ -200,6 +288,114 @@ p {
   color: #fff;
 }
 
+.memory-panel {
+  background: var(--choice-bg);
+  border: 1px solid var(--choice-border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem auto;
+  max-width: 800px;
+  backdrop-filter: blur(10px);
+}
+
+.memory-section {
+  margin-bottom: 1rem;
+}
+
+.memory-section h3 {
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid var(--choice-border);
+  padding-bottom: 0.25rem;
+}
+
+.decisions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.decision-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--choice-hover);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.decision-time {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.locations-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.location-tag {
+  background: var(--choice-hover);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.last-choice {
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+.last-choice.low {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+}
+
+.last-choice.medium {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+}
+
+.last-choice.high {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+.inventory, .relationships {
+  margin-bottom: 1rem;
+}
+
+.inventory ul, .relationships ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inventory li, .relationships li {
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 6px;
+  margin-bottom: 0.25rem;
+  background: var(--choice-hover);
+  font-size: 0.9rem;
+}
+
+.relationships li span {
+  float: right;
+}
+
+.relationships li span.positive {
+  color: #4caf50;
+}
+
+.relationships li span.negative {
+  color: #f44336;
+}
+
 @media (max-width: 768px) {
   .story-container {
     padding: 0.5rem;
@@ -222,5 +418,83 @@ p {
   .risk-indicator {
     width: 100%;
     text-align: center;
+  }
+
+  .memory-panel {
+    margin: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .decision-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .story-container {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "banner"
+      "image"
+      "memory"
+      "text"
+      "choices";
+  }
+
+  .memory-panel {
+    position: static;
+    height: auto;
+    max-height: 300px;
+  }
+}
+
+.story-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+  grid-area: choices;
+  margin-top: auto;
+}
+
+.control-button {
+  padding: 0.5rem 1.5rem;
+  border: 1px solid var(--choice-border);
+  border-radius: 8px;
+  background: var(--choice-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.control-button:hover:not(:disabled) {
+  background: var(--choice-hover);
+  transform: translateY(-2px);
+}
+
+.control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.scene-counter {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  grid-area: choices;
+}
+
+@media (max-width: 768px) {
+  .story-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .control-button {
+    width: 100%;
   }
 } 

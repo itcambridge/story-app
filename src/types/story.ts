@@ -45,9 +45,22 @@ export interface GenerateImageRequest {
   size?: 'small' | 'medium' | 'large';
 }
 
+export interface StoryMemory {
+  decisions: {
+    text: string;
+    timestamp: number;
+  }[];
+  visitedLocations: Set<string>;
+  lastChoice?: {
+    text: string;
+    risk: RiskLevel;
+  };
+}
+
 export interface StoryState {
   currentScene: StoryScene | null;
   history: StoryScene[];
+  memory: StoryMemory;
   isLoading: boolean;
   error: APIError | null;
   retryCount: number;

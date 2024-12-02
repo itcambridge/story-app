@@ -11,7 +11,11 @@
     "server:build": "cd server && tsc",
     "server:start": "node server/build/server.js",
     "server:check-env": "node server/check-env.js",
-    "server": "npm run server:check-env && npm run server:build && npm run server:start"
+    "server": "npm run server:check-env && npm run server:build && npm run server:start",
+    "test": "vitest",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",

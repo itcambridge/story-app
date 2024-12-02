@@ -128,7 +128,7 @@ app.post('/api/generate-story', cors(corsOptions), async (req, res) => {
                 "riskLevel": "low"
               }
             ],
-            "imagePrompt": "Detailed image generation prompt"
+            "imagePrompt": "A concise image prompt (10 words or less) focusing on the most striking visual element and one key atmospheric detail"
           }`
                 },
                 {

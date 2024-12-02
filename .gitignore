@@ -1,15 +1,7 @@
 # Dependencies
-node_modules/
-.pnp
+/node_modules
+/.pnp
 .pnp.js
-
-# Testing
-/coverage
-
-# Production
-/build/
-/dist/
-/server/build/
 
 # Environment files
 .env
@@ -17,27 +9,29 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
-*.txt
 
-# Logs
+# Build outputs
+/dist
+/build
+
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Editor directories and files
-.vscode/
+# IDE and editor files
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# OS generated files
+.vscode/
+*.swp
+*.swo
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db 
+
+# Testing
+/coverage
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
