@@ -4,6 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import { generateImage } from '../services/imageGeneration';
 import { StoryGenerationService } from '../services/storyGeneration';
 import { StoryScene, StoryChoice } from '../types/story';
+import { ThemeToggle } from '../components/ThemeToggle';
 import '../styles/StoryPage.css';
 
 const storyService = StoryGenerationService.getInstance();
@@ -65,7 +66,9 @@ export const StoryPage: React.FC = () => {
 
   return (
     <div className="story-container">
-      <h1>Interactive Story</h1>
+      <div className="story-banner">
+        <ThemeToggle />
+      </div>
       
       <div className="scene-image">
         {isLoadingImage ? (

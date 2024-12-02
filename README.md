@@ -1,19 +1,20 @@
 # Interactive Story App
 
-An interactive storytelling application that generates dynamic story content and images using AI.
+An AI-powered interactive story application that generates dynamic narratives with choices, images, and sound effects.
 
 ## Features
 
 - Dynamic story generation using OpenAI's GPT-4
-- Interactive choices that affect story progression
-- AI-generated images for story scenes
-- Real-time story state management
-- Modern, responsive UI
+- Image generation for each scene
+- Interactive choices with risk levels
+- Dark/Light theme support
+- Sound effects and audio feedback
+- Responsive design
 
 ## Prerequisites
 
 - Node.js (v18 or higher)
-- npm (v8 or higher)
+- npm (v9 or higher)
 - OpenAI API key
 
 ## Setup
@@ -21,7 +22,7 @@ An interactive storytelling application that generates dynamic story content and
 1. Clone the repository:
 
 ```bash
-git clone <your-repository-url>
+git clone [your-repository-url]
 cd story-app
 ```
 
@@ -33,41 +34,61 @@ npm install
 
 3. Create a `.env` file in the root directory with your OpenAI API key:
 
-```
+```env
 OPENAI_API_KEY=your_api_key_here
-PORT=3001
 ```
 
 4. Start the development server:
 
 ```bash
-# Terminal 1: Start the frontend
+# In one terminal, start the frontend
 npm run dev
 
-# Terminal 2: Start the backend
+# In another terminal, start the backend
 npm run server
 ```
 
-5. Open your browser and navigate to `http://localhost:5173`
-
-## Project Structure
-
-- `/src` - Frontend React application
-  - `/components` - Reusable UI components
-  - `/pages` - Page components
-  - `/services` - API and utility services
-  - `/types` - TypeScript type definitions
-- `/server` - Backend Express server
-  - `/src` - Server source code
-  - `/build` - Compiled server code
+5. Open http://localhost:5173 in your browser
 
 ## Development
 
-- Frontend: React with TypeScript
-- Backend: Node.js with Express
-- State Management: React Context
-- Styling: CSS Modules
-- API: OpenAI GPT-4 and DALL-E
+- Frontend: React + TypeScript + Vite
+- Backend: Node.js + Express
+- API: OpenAI GPT-4 for story generation
+- Styling: CSS with theme support
+
+## Project Structure
+
+```
+story-app/
+├── src/                  # Frontend source code
+│   ├── components/       # React components
+│   ├── context/         # React context providers
+│   ├── services/        # API and utility services
+│   ├── styles/          # CSS styles
+│   └── types/           # TypeScript type definitions
+├── server/              # Backend source code
+│   ├── src/             # Server source files
+│   └── build/           # Compiled server files
+├── public/              # Static assets
+└── package.json         # Project dependencies
+```
+
+## Available Scripts
+
+- `npm run dev`: Start frontend development server
+- `npm run build`: Build frontend for production
+- `npm run server`: Start backend server
+- `npm run server:build`: Build backend server
+- `npm run server:start`: Start backend server only
+
+## Environment Variables
+
+Create a `.env` file with the following variables:
+
+```env
+OPENAI_API_KEY=your_api_key_here
+```
 
 ## Contributing
 
@@ -79,4 +100,4 @@ npm run server
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for details

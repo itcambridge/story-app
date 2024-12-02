@@ -90,6 +90,55 @@ app.post('/api/generate-story', cors(corsOptions), async (req: GenerateStoryRequ
     console.log('Generating story with context:', context);
     console.log('OpenAI API Key present:', !!process.env.OPENAI_API_KEY);
 
+    // Check if this is an image prompt request
+    const isImagePrompt = context.includes('Return your response in this exact JSON format');
+    
+    if (isImagePrompt) {
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: "You are an AI image prompt generator specialized in creating vivid, focused scene descriptions. Your task is to distill complex scenes into their most striking visual elements. Focus on the main subject, key action, and atmosphere in 10 words or less. Avoid complex descriptions or multiple subjects."
+          },
+          {
+            role: "user",
+            content: context
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 200
+      });
+
+      const content = completion.choices[0]?.message?.content;
+      if (!content) {
+        throw new Error('No content received from OpenAI');
+      }
+
+      try {
+        // Parse the JSON response
+        const response = JSON.parse(content.trim());
+        res.json(response);
+      } catch (parseError) {
+        console.error('Image prompt parse error:', parseError);
+        // If parsing fails, try to extract the prompt from the raw text
+        const keyWordsMatch = content.match(/\"keyWords\":\s*\[(.*?)\]/);
+        const imagePromptMatch = content.match(/\"imagePrompt\":\s*\"(.*?)\"/);
+        
+        if (keyWordsMatch && imagePromptMatch) {
+          const response = {
+            keyWords: JSON.parse(`[${keyWordsMatch[1]}]`),
+            imagePrompt: imagePromptMatch[1]
+          };
+          res.json(response);
+        } else {
+          throw new Error('Failed to parse image prompt response');
+        }
+      }
+      return;
+    }
+
+    // Regular story generation code continues here...
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [
@@ -107,19 +156,10 @@ app.post('/api/generate-story', cors(corsOptions), async (req: GenerateStoryRequ
                 "consequence": "Brief preview of what might happen",
                 "confidence": 75,
                 "riskLevel": "low"
-              },
-              {
-                "text": "Choice 2 text",
-                "consequence": "Brief preview of what might happen",
-                "confidence": 40,
-                "riskLevel": "high"
               }
             ],
-            "imagePrompt": "Detailed image generation prompt"
-          }
-          Risk levels must be either 'low', 'medium', or 'high'.
-          Confidence should be a number between 0 and 100.
-          Make choices meaningful with real consequences and varying risk levels.`
+            "imagePrompt": "A concise image prompt (10 words or less) focusing on the most striking visual element and one key atmospheric detail"
+          }`
         },
         {
           role: "user",
