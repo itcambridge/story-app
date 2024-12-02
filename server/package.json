@@ -1,0 +1,10 @@
+{
+  "name": "story-app-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/server.js",
+    "dev": "nodemon build/server.js"
+  }
+} 
